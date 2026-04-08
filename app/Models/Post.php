@@ -4,30 +4,28 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-/**
- * @property int $id
- * @property int $title
- * @property int|null $content
- * @property int $user_id
- * @property \illuminate\Support\Carbon $created_at
- */
 
-class Project extends Model
+class Post extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-            'id',
             'title',
             'content',
             'user_id'
         ];
 
     protected $casts = [
-            'user_id' => 'integer',
-            'created_at' => 'datetime',
+            'is_published' => 'boolean',
+            'is_active' => 'boolean'
         ];
+
+    public function user(): BelongsTo
+    {
+    return $this->belongsTo(User::class);
+    }
 }
 
 
