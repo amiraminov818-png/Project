@@ -14,11 +14,11 @@ class RoleTableSeeder extends Seeder
     public function run(): void
     {
         Role::query()->create([
-            'title' => 'admin'
+            'name' => 'admin'
         ]);
 
         Role::query()->create([
-            'title' => 'user'
+            'name' => 'user'
         ]);
     }
 }
