@@ -6,7 +6,7 @@ use App\Models\Post;
 use App\Services\ProjectService;
 use Illuminate\Http\Request;
 
-class ProjectController extends Controller
+class PostController extends Controller
 {
     public function __construct(public readonly ProjectService $projectService)
     {
@@ -17,7 +17,8 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        //
+        $posts = Post::with('user')->get();
+        return view('posts.index', compact('posts'));
     }
 
     /**
