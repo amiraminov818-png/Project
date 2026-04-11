@@ -6,6 +6,10 @@
     <title>Мои Посты</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>
+    <a href="{{ route('posts.create') }}"
+       class="inline-block bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded mb-4 transition">
+        + Создать новый пост
+    </a>
 </head>
 <body class="h-full text-white">
 
