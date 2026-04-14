@@ -26,6 +26,16 @@ class Post extends Model
     {
     return $this->belongsTo(User::class);
     }
+
+    public function scopeForIndex($query){
+        $query->select([
+           'id',
+            'title',
+            'user_id',
+            'created_at'
+        ]);
+        return $query;
+    }
 }
 
 

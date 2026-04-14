@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Post\StoreRequest;
 use App\Models\Post;
 use App\Services\PostService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Session\Store;
 use Illuminate\View\View;
 
 class PostController extends Controller
@@ -37,21 +39,16 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(StoreRequest $request): RedirectResponse
     {
-        $data = $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required|string|min:10',
-            'user_id' => 'required|integer|exists:users,id',
-        ]);
-        $this->postService->store($data);
+        $this->postService->store($request->validated());
         return redirect()->route('posts.index')->with('success', 'Post Created Successfully');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Post $project)
+    public function show(Post $post)
     {
         //
     }
@@ -59,7 +56,7 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Post $project)
+    public function edit(Post $post)
     {
         //
     }
@@ -67,7 +64,7 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Post $project)
+    public function update(Request $request, Post $post)
     {
         //
     }
@@ -75,7 +72,7 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Post $project)
+    public function destroy(Post $post)
     {
         //
     }
