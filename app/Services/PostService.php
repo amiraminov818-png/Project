@@ -3,6 +3,7 @@
 namespace App\Services;
 use App\Models\Post;
 use App\Models\User;
+use Illuminate\Http\Request;
 
 
 class PostService
@@ -20,8 +21,14 @@ class PostService
 
     public function store(array $data)
     {
-        $data['user_id'] = auth()->id();
+        return Post::create($data);
+    }
+    public function update(array $data, Post $post)
+    {
+       $post->update($data);
+    }
 
-                return Post::create($data);
+    public function delete(Post $post){
+        $post->delete();
     }
 }
