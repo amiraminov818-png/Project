@@ -19,7 +19,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->foreignIdFor(Role::class, 'role_id')
-                ->default(1)->constrained('roles');
+                ->constrained('roles');
             $table->rememberToken();
             $table->timestamps();
         });

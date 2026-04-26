@@ -11,6 +11,8 @@ use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
+    private $userService;
+
     /**
      * Display the user's profile form.
      */
@@ -26,14 +28,9 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
-
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
-        }
-
-        $request->user()->save();
-
+        $user = $this->userService->update(
+            $request->validated(),
+            $request->user());
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 

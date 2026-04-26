@@ -25,15 +25,21 @@ class UpdatePostRequest extends FormRequest
     {
         return
             [
-
                 'title' =>
                 [
-                    'required', 'string', 'max:255',
-                    Rule::unique('posts', 'title')->ignore('post_id')
+                    'required',
+                    'string',
+                    'max:255',
+
+                    Rule::unique('posts', 'title')
+                        ->ignore('post_id')
                 ],
+
                 'content' =>
                 [
-                    'required', 'string', 'min:10'
+                    'required',
+                    'string',
+                    'min:10'
                 ],
             ];
     }

@@ -9,9 +9,10 @@ use Illuminate\Http\Request;
 class PostService
 {
 
-    public function getPostForIndex()
+    public function index()
     {
-        return Post::forIndex()->with('user')->latest()->paginate(8);
+        return $posts = Post::latest()->paginate();
+
     }
 
     public function getFormDependencies()
@@ -19,7 +20,7 @@ class PostService
         return User::select('id','name')->get();
     }
 
-    public function store(array $data)
+    public function store(array $data, int $user_id)
     {
         return Post::create($data);
     }

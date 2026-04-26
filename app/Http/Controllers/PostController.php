@@ -24,7 +24,7 @@ class PostController extends Controller
      */
     public function index(): View
     {
-        $posts = $this->postService->getPostForIndex();
+       $posts = $this->postService->index();
         return view('posts.index', compact('posts'));
     }
 
@@ -42,7 +42,7 @@ class PostController extends Controller
      */
     public function store(StoreRequest $request): RedirectResponse
     {
-        $this->postService->store($request->validated());
+        $this->postService->store($request->validated(), $request->user()->id);
         return redirect()->route('posts.index')->with('success', 'Post Created Successfully');
     }
 

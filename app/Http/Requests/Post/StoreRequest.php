@@ -21,12 +21,4 @@ class StoreRequest extends FormRequest
      *
      * @return array<string, ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
-    {
-        return [
-            'user_id' => 'required|int',
-            'title' => 'required|string|max:255',
-                'content' => 'required|string|min:10'
-        ];
-    }
 }
