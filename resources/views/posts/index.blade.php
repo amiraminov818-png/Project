@@ -1,90 +1,54 @@
 <!DOCTYPE html>
-<html class="h-full bg-gray-900">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Мои Посты</title>
+    <title>Список постов</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>
-    <a href="{{ route('posts.create') }}"
-       class="inline-block bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded mb-4 transition">
-        + Создать новый пост
-    </a>
 </head>
-<body class="h-full text-white">
+<body class="bg-slate-50 min-h-screen py-10 px-4">
 
-<div class="min-h-full">
-    <nav class="bg-gray-800/50">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div class="flex h-16 items-center justify-between">
-                <div class="flex items-center">
-                    <div class="shrink-0">
-                        <img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" class="size-8" />
+<div class="max-w-2xl mx-auto">
+    <div class="flex items-center justify-between mb-8 border-b border-slate-200 pb-6">
+        <h1 class="text-2xl font-black text-slate-800 tracking-tight">Лента постов</h1>
+        <a href="{{ route('posts.create') }}" class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold py-2 px-5 rounded-lg transition">
+            + Написать
+        </a>
+    </div>
+
+    <div class="space-y-4">
+        @forelse($posts as $post)
+            <div class="bg-white border border-slate-200 p-5 rounded-xl hover:shadow-md transition">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-700 text-xs font-bold">
+                        {{ substr($post->user->name ?? '?', 0, 1) }}
                     </div>
-                    <div class="hidden md:block">
-                        <div class="ml-10 flex items-baseline space-x-4">
-                            <a href="/posts" class="rounded-md bg-gray-950/50 px-3 py-2 text-sm font-medium text-white">Все посты</a>
-                            <a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">Категории</a>
-                        </div>
-                    </div>
+                    <span class="text-sm font-bold text-slate-700">{{ $post->user->name ?? 'Автор удален' }}</span>
+                    <span class="text-xs text-slate-400">• {{ $post->created_at->diffForHumans() }}</span>
+                </div>
+
+                <h2 class="text-lg font-bold text-slate-900 leading-snug">
+                    {{ $post->title }}
+                </h2>
+
+                <div class="mt-4 flex items-center justify-between">
+                    <span class="text-[10px] font-mono text-slate-300 uppercase tracking-widest">ID: {{ $post->id }}</span>
+                    <a href="#" class="text-indigo-600 text-xs font-bold uppercase tracking-wider hover:text-indigo-800 transition">
+                        Подробнее →
+                    </a>
                 </div>
             </div>
-        </div>
-    </nav>
-
-    <header class="relative bg-gray-800 after:pointer-events-none after:absolute after:inset-x-0 after:inset-y-0 after:border-y after:border-white/10">
-        <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-            <h1 class="text-3xl font-bold tracking-tight text-white">Лента публикаций</h1>
-        </div>
-    </header>
-
-    <main>
-        <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-
-            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-
-                @foreach($posts as $post)
-                    <div class="flex flex-col overflow-hidden rounded-lg bg-gray-800 border border-white/10 shadow-lg transition hover:border-indigo-500/50">
-                        <div class="p-6">
-                            <div class="flex items-center gap-x-3 mb-4">
-                <span class="inline-flex items-center rounded-md bg-indigo-400/10 px-2 py-1 text-xs font-medium text-indigo-400 ring-1 ring-inset ring-indigo-400/30">
-                  ID: {{ $post->id }}
-                </span>
-                                <span class="text-sm text-gray-400">{{ $post->created_at->format('d.m.Y') }}</span>
-                            </div>
-
-                            <h2 class="text-xl font-semibold text-white mb-2 leading-7">
-                                {{ $post->title }}
-                            </h2>
-
-                            <p class="text-gray-400 text-sm line-clamp-3 mb-4">
-                                {{ $post->content }}
-                            </p>
-                        </div>
-
-                        <div class="mt-auto border-t border-white/5 bg-white/5 px-6 py-4 flex items-center justify-between">
-                            <div class="flex items-center gap-2">
-                                <div class="h-8 w-8 rounded-full bg-indigo-500 flex items-center justify-center text-xs font-bold uppercase">
-                                    {{ substr($post->user->name, 0, 1) }}
-                                </div>
-                                <span class="text-sm font-medium text-gray-300">{{ $post->user->name }}</span>
-                            </div>
-
-                            <a href="#" class="text-sm font-semibold text-indigo-400 hover:text-indigo-300">Читать →</a>
-                        </div>
-                    </div>
-                @endforeach
-
+        @empty
+            <div class="bg-white rounded-xl p-10 text-center border-2 border-dashed border-slate-200">
+                <p class="text-slate-400 italic font-medium">Пока здесь ничего не опубликовано...</p>
             </div>
+        @endforelse
+    </div>
 
-            @if($posts->isEmpty())
-                <div class="text-center py-12">
-                    <p class="text-gray-400">Постов пока нет. Запустите сидеры!</p>
-                </div>
-            @endif
-
-        </div>
-    </main>
+    {{-- Пагинация --}}
+    <div class="mt-8">
+        {{ $posts->links() }}
+    </div>
 </div>
 
 </body>

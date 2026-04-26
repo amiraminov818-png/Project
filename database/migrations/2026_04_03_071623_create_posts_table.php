@@ -14,8 +14,8 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->text('title');
-            $table->text('content');
+            $table->string('title');
+            $table->string('content', 500);
             $table->boolean('is_published')->default(0);
             $table->boolean('is_active')->default(1);
             $table->foreignIdFor(User::class, 'user_id')
